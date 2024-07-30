@@ -1,0 +1,43 @@
+---
+import { scripts } from "&/schema"
+
+type scriptType = typeof scripts.$inferSelect
+
+interface Props {
+	script: scriptType
+}
+
+const { script } = Astro.props
+---
+
+<li><a href={`/code?scriptId=${script.name}`}>{script.name}</a></li>
+
+<style>
+	li {
+		list-style-type: none;
+		min-width: 10rem;
+		text-align: center;
+		border: 1px solid var(--color-text);
+		transition: transform 0.2s ease;
+	}
+
+	li:hover {
+		transform: translate3d(0, 0.2rem, 0);
+	}
+
+	li:active {
+		transform: translate3d(0, 0.5rem, 0);
+	}
+
+	a {
+		padding: 0.3rem;
+		display: block;
+		color: var(--color-text);
+		background-color: var(--color-secondary);
+		text-decoration: none;
+	}
+
+	a:hover {
+		background-color: var(--color-accent);
+	}
+</style>

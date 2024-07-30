@@ -1,0 +1,22 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import AICard from "@@/containers/ai/Card.astro"
+import AIResponse from "@@/containers/ai/Response.astro"
+
+let question = ""
+
+try {
+	const data = await Astro.request.formData()
+	question = data.get("question")?.toString() ?? ""
+} catch (error) {
+	console.error(error)
+}
+---
+
+<Layout title="MillhioreTFS - AI Response">
+	<AIResponse server:defer question={question}>
+		<AICard slot="fallback">
+			<p>Waiting for a question...</p>
+		</AICard>
+	</AIResponse>
+</Layout>

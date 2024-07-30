@@ -1,0 +1,65 @@
+---
+import Action from "@@/Action.astro"
+---
+
+<form id="login-form">
+	<label>Login</label>
+	<Action as="input" name="email" type="email" placeholder="Email" />
+	<Action as="input" name="password" type="password" placeholder="Password" />
+	<Action as="button" id="button-login" type="submit">Login</Action>
+	<Action as="a" href="/register" role="button" aria-label="Button to go to the Register page"
+		>Register</Action
+	>
+</form>
+
+<style>
+	form {
+		width: 400px;
+		display: grid;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	#Login-Email,
+	#Login-Password {
+		width: 100%;
+	}
+
+	label {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-accent);
+	}
+
+	@media (width <= 1110px) {
+		form {
+			width: 100%;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const $form = document.getElementById("login-form") as HTMLFormElement
+		if (!$form) return
+
+		$form.addEventListener("submit", async (event) => {
+			event.preventDefault()
+			const response = await fetch("/api/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(Object.fromEntries(new FormData($form))),
+			})
+
+			if (response.ok) {
+				window.location.href = "/dashboard"
+			} else {
+				const { email, password } = await response.json()
+				const errorMessage = email || password || "Invalid email or password"
+				alert(errorMessage)
+			}
+		})
+	})
+</script>

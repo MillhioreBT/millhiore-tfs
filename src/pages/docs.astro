@@ -1,0 +1,10 @@
+---
+import DocsPage from "@/components/containers/docs/Docs.astro"
+import Layout from "@/layouts/Docs.astro"
+
+const index = Astro.url.searchParams.get("index")
+---
+
+<Layout title="MillhioreTFS Docs">
+	<DocsPage index={index} />
+</Layout>

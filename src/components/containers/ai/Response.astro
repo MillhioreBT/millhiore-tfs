@@ -1,0 +1,24 @@
+---
+import { getGeneratedText } from "&/perplexity"
+import AICard from "@@/containers/ai/Card.astro"
+interface Props {
+	question: string | null
+}
+
+const { question } = Astro.props
+
+let response = "I'm here to help you, what do you need?"
+if (question) {
+	response = await getGeneratedText(question)
+}
+---
+
+<AICard>
+	<article set:html={response} />
+</AICard>
+
+<style>
+	article {
+		text-align: center;
+	}
+</style>

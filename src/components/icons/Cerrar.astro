@@ -1,0 +1,37 @@
+<svg
+	class:list={Astro.props.class}
+	role="img"
+	aria-label="Logotipo de una X para cerrar el menu"
+	width="50"
+	height="50"
+	viewBox="0 0 32 32"
+	xmlns="http://www.w3.org/2000/svg"
+>
+	<line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2"></line>
+	<line x1="20" y1="4" x2="4" y2="20" stroke="currentColor" stroke-width="2"></line>
+</svg>
+
+<svg viewBox="0 0 24 24">
+	<line class="top" x1="4" y1="6" x2="20" y2="6" stroke="black" stroke-width="2"></line>
+	<line class="middle" x1="4" y1="12" x2="20" y2="12" stroke="black" stroke-width="2"></line>
+	<line class="bottom" x1="4" y1="18" x2="20" y2="18" stroke="black" stroke-width="2"></line>
+</svg>
+
+<style>
+	line {
+		transition: all 0.3s;
+	}
+
+	/* Estilos cuando el checkbox está marcado */
+	.menu-toggle:checked + .menu-icon .top {
+		transform: translate(0, 6px) rotate(45deg);
+	}
+
+	.menu-toggle:checked + .menu-icon .middle {
+		opacity: 0;
+	}
+
+	.menu-toggle:checked + .menu-icon .bottom {
+		transform: translate(0, -6px) rotate(-45deg);
+	}
+</style>

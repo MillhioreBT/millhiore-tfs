@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import DashboardPage from "@@/containers/tfs/Dashboard.astro"
+
+const session = Astro.locals.session
+if (!session) {
+	return Astro.redirect("/login")
+}
+---
+
+<Layout title="MillhioreTFS - dashboard">
+	<DashboardPage session={session} />
+</Layout>

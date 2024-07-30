@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import ScriptsContent from "@@/containers/scripts/Content.astro"
+import ScriptsPage from "@@/containers/scripts/List.astro"
+---
+
+<Layout title="MillhioreTFS - scripts">
+	<ScriptsContent>
+		<ScriptsPage server:defer>
+			<h3 slot="fallback">Loading Scripts...</h3>
+		</ScriptsPage>
+	</ScriptsContent>
+</Layout>

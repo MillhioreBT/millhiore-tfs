@@ -1,0 +1,204 @@
+---
+import Action from "@@/Action.astro"
+import MenuSVG from "@@/icons/Menu.astro"
+import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
+
+const session = Astro.locals.session
+---
+
+<header>
+	<h1><a href="/">Millhiore<span>TFS</span></a></h1>
+	<Action as="input" id="Menu" type="checkbox" />
+	<label for="Menu">
+		<MenuSVG />
+	</label>
+	<nav>
+		<form action="/ai" method="POST">
+			<Action
+				as="input"
+				name="question"
+				type="search"
+				placeholder={`Ask AI - Tokens: ${session?.tokens ?? 0}`}
+			/>
+			<Action
+				as="button"
+				role="button"
+				aria-label="Button to start search with AI"
+				id="Search-Button"
+				type="submit"><VercelStarsAI class="Search-Stars" />Search</Action
+			>
+		</form>
+		<Action as="a" href="/" role="button" aria-label="Button to go to the Home page">Home</Action>
+		<Action as="a" href="/scripts" role="button" aria-label="Button to go to the Scripts page"
+			>Scripts</Action
+		>
+		<Action as="a" href="/docs" role="button" aria-label="Button to go to the Docs page"
+			>Docs</Action
+		>
+		<Action
+			as="a"
+			href={session ? "/dashboard" : "/login"}
+			id="Login"
+			role="button"
+			aria-label="Button to go to the Login/Dashboard page"
+			>{session ? "Dashboard" : "Login"}</Action
+		>
+	</nav>
+</header>
+
+<style>
+	header {
+		display: grid;
+		grid-template-areas: "title nav";
+		grid-template-columns: max-content auto;
+		grid-template-rows: var(--header-height);
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		width: 100%;
+		border-bottom: 1px solid var(--color-text);
+		background-color: var(--color-background);
+		z-index: 99;
+	}
+
+	h1 {
+		grid-area: title;
+		padding: 0 2rem;
+		transition: transform 0.2s;
+
+		a {
+			text-decoration: none;
+			color: var(--color-text);
+		}
+
+		span {
+			color: var(--color-accent);
+		}
+	}
+
+	h1:hover {
+		cursor: pointer;
+		transform: translate3d(0, 0.2rem, 0);
+	}
+
+	h1:active {
+		transform: translate3d(0, 0.5rem, 0);
+	}
+
+	nav {
+		grid-area: nav;
+		display: flex;
+		gap: 1rem;
+		padding: 0 2rem;
+	}
+
+	form {
+		display: flex;
+		gap: 1rem;
+	}
+
+	a {
+		font-size: clamp(1em, 1vw, 2em);
+	}
+
+	label {
+		padding: 0 1rem;
+	}
+
+	#Menu,
+	label {
+		display: none;
+		transition: transform 0.2s;
+	}
+
+	label:hover {
+		cursor: pointer;
+	}
+
+	label:active {
+		transform: translate3d(3px, 3px, 0);
+	}
+
+	/*
+	 * Media queries
+	*/
+
+	@media (width <= 1110px) {
+		nav {
+			display: none;
+			grid-area: none;
+			flex-direction: column;
+			place-content: center;
+			place-items: center;
+			position: fixed;
+			top: calc(var(--header-height) + 1px);
+			left: 0;
+			width: 100dvw;
+			height: calc(100vh - var(--header-height));
+			overflow-y: auto; /* Permite scroll vertical dentro del nav */
+			-webkit-overflow-scrolling: touch; /* Para mejor desempeño en iOS */
+			background-color: var(--color-background);
+			padding: 0;
+		}
+
+		label {
+			grid-area: nav;
+			display: flex;
+			place-items: center;
+			height: 100%;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		#Menu:checked ~ nav {
+			display: flex;
+			animation: fadeIn 0.2s;
+		}
+
+		#Menu:checked ~ label {
+			svg .Menu-Open {
+				display: none;
+			}
+
+			svg .Menu-Close {
+				display: block;
+			}
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", async () => {
+		const $main = document.querySelector("main") as HTMLElement
+		if ($main) {
+			const [$footer]: NodeListOf<HTMLElement> = document.querySelectorAll("footer")
+			const $menu = document.getElementById("Menu") as HTMLInputElement
+			const $root = document.documentElement
+			window.addEventListener("resize", () => {
+				if (window.innerWidth > 1110) {
+					$menu.checked = false
+					$main.inert = false
+					$footer.inert = false
+					$root.style.removeProperty("overflow")
+				}
+			})
+
+			$menu.addEventListener("change", () => {
+				$main.inert = $menu.checked
+				$footer.inert = $menu.checked
+				if ($menu.checked) {
+					$root.style.overflow = "hidden"
+				} else {
+					$root.removeAttribute("style")
+				}
+			})
+		}
+	})
+</script>

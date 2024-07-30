@@ -1,0 +1,78 @@
+---
+import GettingStarted from "@@/containers/docs/GettingStarted.astro"
+import DocsNav from "@@/containers/docs/Nav.astro"
+import Placeholder from "@@/containers/docs/Placeholder.astro"
+
+interface Props {
+	index: string | null
+}
+
+const { index } = Astro.props
+
+const components: Record<string, (_props: Record<string, any>) => any> = {
+	["getting-started"]: GettingStarted,
+}
+
+const Component = components[index || "getting-started"] || GettingStarted
+---
+
+<section id="Docs-Container">
+	<DocsNav index={index} />
+	<article>
+		<Component />
+		<Placeholder />
+	</article>
+</section>
+
+<style>
+	section {
+		display: grid;
+		grid-template-areas: "index docs";
+		width: 100%;
+		height: calc(95dvh - var(--header-height));
+		grid-template-columns: 300px 1fr;
+		gap: 1rem;
+	}
+
+	article {
+		grid-area: docs;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background-color: var(--color-secondary);
+		border-radius: 0.2rem;
+		overflow: scroll;
+		scrollbar-gutter: stable;
+	}
+
+	article::-webkit-scrollbar {
+		width: 10px;
+		height: 100%;
+	}
+
+	article::-webkit-scrollbar-track {
+		background: var(--color-secondary);
+		border-radius: 0.2rem;
+	}
+
+	article::-webkit-scrollbar-thumb {
+		background: var(--color-accent);
+		border: 2px solid var(--color-secondary);
+		border-radius: 0.5rem;
+	}
+
+	h1 {
+		font-size: 4rem;
+
+		span {
+			color: var(--color-accent);
+		}
+	}
+
+	@media (width <= 1110px) {
+		section {
+			grid-template-columns: 1fr;
+			grid-template-areas: "docs";
+		}
+	}
+</style>

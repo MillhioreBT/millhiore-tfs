@@ -1,0 +1,58 @@
+---
+interface Props {
+	title: string
+	description: string
+}
+
+const { title, description } = Astro.props
+---
+
+<article>
+	<header>
+		<h3><slot /> {title}</h3>
+	</header>
+	<section>
+		<p>{description}</p>
+	</section>
+</article>
+
+<style>
+	article {
+		display: grid;
+		grid-template-areas: "header" "cards";
+		background-color: var(--color-secondary);
+		border-radius: 0.2rem;
+		padding: 1rem;
+		gap: 1rem;
+		place-content: center;
+	}
+
+	header {
+		grid-area: header;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	section {
+		grid-area: cards;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1rem;
+	}
+
+	h3 {
+		display: flex;
+		gap: 1rem;
+		place-items: center;
+		font-size: clamp(1.5em, 1vw, 1em);
+		color: var(--color-accent);
+	}
+
+	p {
+		font-size: clamp(1em, 1vw, 2em);
+		text-align: center;
+	}
+</style>

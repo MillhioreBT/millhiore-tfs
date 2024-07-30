@@ -1,0 +1,69 @@
+---
+interface Props {
+	index: string | null
+	title: string
+	list: string[]
+}
+
+const { index, title, list } = Astro.props
+const link = (item: string) => encodeURIComponent(item.toLowerCase())
+const select = (item: string) => {
+	if (!index && item === "Getting Started") {
+		return "> "
+	}
+	return index === item.toLowerCase() ? "> " : ""
+}
+---
+
+<details open>
+	<summary id={title}>{title}</summary>
+	<ul>
+		{
+			list.map((item) => (
+				<li>
+					<a href={`/docs?index=${link(item)}#${title}`}>{`${select(item)}${item}`}</a>
+				</li>
+			))
+		}
+	</ul>
+</details>
+
+<style>
+	details {
+		display: grid;
+		gap: 1rem;
+	}
+
+	summary {
+		cursor: pointer;
+		font-size: 1.3rem;
+		color: var(--color-accent);
+	}
+
+	summary:focus {
+		outline: none;
+	}
+
+	ul {
+		list-style: none;
+		padding-left: 1rem;
+	}
+
+	li {
+		margin: 0.1rem;
+		padding: 0.2rem;
+	}
+
+	a {
+		color: var(--color-text);
+		text-decoration: none;
+		background-color: #69655f;
+		padding: 0.2rem;
+		border-radius: 0.2rem;
+		width: 100%;
+	}
+
+	a:hover {
+		color: var(--color-accent);
+	}
+</style>

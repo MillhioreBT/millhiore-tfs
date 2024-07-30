@@ -1,0 +1,90 @@
+---
+const { id } = Astro.params
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>title</title>
+	</head>
+	<body>
+		<div data-scriptId={id} id="Code-Editor"></div>
+	</body>
+</html>
+
+<style>
+	body {
+		margin: 0;
+		overflow: none;
+	}
+
+	div {
+		width: 100%;
+		height: 100vh;
+	}
+</style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", async () => {
+		const monaco = await import("monaco-editor")
+		const codeObj = document.getElementById("Code-Editor") as HTMLDivElement
+		const editor = monaco.editor.create(codeObj, {
+			value: "-- Loading code...",
+			language: "lua",
+			theme: "vs-dark",
+			wordWrap: "on",
+			fontSize: 16,
+			fontFamily: "Operator Mono",
+			readOnly: false,
+		})
+
+		const scriptId = codeObj.dataset.scriptid
+		const result = await fetch(`/api/script/${scriptId}`)
+		if (result.ok) {
+			const code = await result.text()
+			editor.setValue(code)
+		} else {
+			const { message } = await result.json()
+			if (message) {
+				editor.setValue(`-- ${message}`)
+			} else {
+				editor.setValue("")
+			}
+		}
+
+		window.onmessage = async (event) => {
+			if (event.data === "save") {
+				const code = editor.getValue()
+				if (code.length === 0) return
+				const result = await fetch(`/api/script/${scriptId}`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "text/plain",
+					},
+					body: code,
+				})
+
+				if (result.ok) {
+					alert("Script saved successfully")
+				} else {
+					alert("An error occurred while saving the script")
+				}
+			} else if (event.data === "download") {
+				const code = editor.getValue()
+				if (code.length === 0) return
+				const blob = new Blob([code], { type: "text/plain" })
+				const url = URL.createObjectURL(blob)
+				const a = document.createElement("a")
+				a.href = url
+				a.download = `script-${scriptId}`
+				a.click()
+				URL.revokeObjectURL(url)
+			}
+		}
+	})
+</script>

@@ -1,0 +1,190 @@
+---
+import Action from "@@/Action.astro"
+import MenuSVG from "@@/icons/Menu.astro"
+import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
+---
+
+<header>
+	<h1><a href="/"><span>Millhiore</span></a><a href="/docs"><span>Docs</span></a></h1>
+	<Action as="input" id="Menu-Docs" type="checkbox" />
+	<label for="Menu-Docs">
+		<MenuSVG />
+	</label>
+	<nav id="Docs-Header-Nav">
+		<div>
+			<Action as="input" id="Search-Input" type="search" placeholder="Ask AI" />
+			<Action
+				as="button"
+				role="button"
+				aria-label="Button to start search with AI"
+				id="Search-Button"
+				type="submit"><VercelStarsAI class="Search-Stars" />Search</Action
+			>
+		</div>
+	</nav>
+</header>
+
+<style>
+	header {
+		display: grid;
+		grid-template-areas: "title nav";
+		grid-template-columns: max-content auto;
+		grid-template-rows: var(--header-height);
+		align-items: center;
+		justify-content: space-between;
+		position: fixed;
+		width: 100%;
+		border-bottom: 1px solid var(--color-text);
+		background-color: var(--color-background);
+		z-index: 99;
+	}
+
+	h1 {
+		grid-area: title;
+		padding: 0 2rem;
+
+		a {
+			text-decoration: none;
+		}
+
+		a:first-child span:first-child {
+			color: var(--color-text);
+
+			&:hover {
+				cursor: pointer;
+				filter: brightness(1.2);
+			}
+		}
+
+		a:last-child span:last-child {
+			color: var(--color-accent);
+
+			&:hover {
+				cursor: pointer;
+				filter: brightness(1.2);
+			}
+		}
+	}
+
+	nav {
+		grid-area: nav;
+		display: flex;
+		gap: 1rem;
+		padding: 0 2rem;
+	}
+
+	div {
+		display: flex;
+		gap: 1rem;
+	}
+
+	a {
+		font-size: clamp(1em, 1vw, 2em);
+	}
+
+	label {
+		padding: 0 1rem;
+	}
+
+	#Menu-Docs,
+	label {
+		display: none;
+		transition: transform 0.2s;
+	}
+
+	label:hover {
+		cursor: pointer;
+	}
+
+	label:active {
+		transform: translate3d(3px, 3px, 0);
+	}
+
+	/*
+	 * Media queries
+	*/
+
+	@media (width <= 1110px) {
+		nav {
+			display: none;
+			grid-area: none;
+			flex-direction: column;
+			place-content: center;
+			place-items: center;
+			position: fixed;
+			top: calc(var(--header-height) + 1px);
+			left: 0;
+			width: 100dvw;
+			height: calc(100vh - var(--header-height));
+			overflow-y: auto; /* Permite scroll vertical dentro del nav */
+			-webkit-overflow-scrolling: touch; /* Para mejor desempeño en iOS */
+			background-color: var(--color-background);
+			padding: 1rem;
+		}
+
+		label {
+			grid-area: nav;
+			display: flex;
+			place-items: center;
+			height: 100%;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		#Menu-Docs:checked ~ nav {
+			display: flex;
+			animation: fadeIn 0.2s;
+		}
+
+		#Menu-Docs:checked ~ label {
+			svg .Menu-Open {
+				display: none;
+			}
+
+			svg .Menu-Close {
+				display: block;
+			}
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const $main = document.querySelector("main") as HTMLElement
+		const $menu = document.getElementById("Menu-Docs") as HTMLInputElement
+		const $docsContainer = document.getElementById("Docs-Container") as HTMLElement
+		const $docsHeaderNav = document.getElementById("Docs-Header-Nav") as HTMLElement
+		const $docsNav = document.getElementById("Docs-Nav") as HTMLElement
+		const $root = document.documentElement
+		window.addEventListener("resize", () => {
+			if (window.innerWidth > 1110) {
+				$menu.checked = false
+				$main.inert = false
+				$root.style.removeProperty("overflow")
+				$docsContainer.appendChild($docsNav)
+				$docsNav.removeAttribute("style")
+			}
+		})
+
+		$menu.addEventListener("change", () => {
+			$main.inert = $menu.checked
+			if ($menu.checked) {
+				$root.style.overflow = "hidden"
+				$docsHeaderNav.appendChild($docsNav)
+				$docsNav.style.display = "flex"
+				$docsNav.style.backgroundColor = "var(--color-background)"
+			} else {
+				$root.removeAttribute("style")
+				$docsContainer.appendChild($docsNav)
+				$docsNav.removeAttribute("style")
+			}
+		})
+	})
+</script>

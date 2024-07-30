@@ -1,0 +1,105 @@
+---
+import Card from "@@/containers/Card.astro"
+import Bolt from "@@/icons/Bolt.astro"
+import Brief from "@@/icons/Brief.astro"
+import Gear from "@@/icons/Gear.astro"
+import Rocket from "@@/icons/Rocket.astro"
+import Shield from "@@/icons/Shield.astro"
+import User from "@@/icons/User.astro"
+---
+
+<article>
+	<header>
+		<h1>Features</h1>
+	</header>
+	<section>
+		<Card
+			title="Blazing Fast"
+			description="Our product delivers lightning-fast performance, ensuring seamless user experiences."
+		>
+			<Bolt />
+		</Card>
+		<Card
+			title="Highly Customizable"
+			description="Tailor our product to your unique needs with our extensive customization options."
+		>
+			<Gear />
+		</Card>
+		<Card
+			title="Secure & Reliable"
+			description="Rest assured, your data is safe and secure with our robust security measures."
+		>
+			<Shield />
+		</Card>
+		<Card
+			title="Scalable"
+			description="Our product scales seamlessly to meet your growing needs, ensuring long-term success."
+		>
+			<Rocket />
+		</Card>
+		<Card
+			title="Enterprise-Ready"
+			description="Designed to meet the demands of large-scale businesses and organizations."
+		>
+			<Brief />
+		</Card>
+		<Card
+			title="Collaborative"
+			description="Empower your team to work together seamlessly with our collaboration features."
+		>
+			<User />
+		</Card>
+	</section>
+</article>
+
+<style>
+	article {
+		display: grid;
+		grid-template-areas: "title" "cards";
+		gap: 1rem;
+	}
+
+	header {
+		grid-area: title;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+	}
+
+	h1 {
+		font-size: clamp(3em, 1vw, 1em);
+
+		span {
+			color: var(--color-accent);
+		}
+	}
+
+	p {
+		font-size: clamp(1em, 1vw, 2em);
+	}
+
+	section {
+		grid-area: cards;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1rem;
+	}
+
+	h2 {
+		font-size: clamp(2em, 1vw, 1em);
+	}
+
+	p {
+		font-size: clamp(1em, 1vw, 2em);
+	}
+
+	@media (width <= 1110px) {
+		aside {
+			grid-template-areas: "title" "cards";
+		}
+
+		article {
+			align-items: center;
+		}
+	}
+</style>

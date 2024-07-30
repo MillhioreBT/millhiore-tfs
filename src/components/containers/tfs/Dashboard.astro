@@ -1,0 +1,60 @@
+---
+import Action from "@/components/Action.astro"
+
+interface Props {
+	session?: Session
+}
+
+const { session } = Astro.props
+---
+
+<section>
+	<div>
+		<img src="/default_miku.png" alt="AI" />
+	</div>
+	<aside>
+		<h3>Welcomen {session?.email ?? ""}!</h3>
+		<label>Your tokens: {session?.tokens ?? 0}</label>
+		<Action as="button" id="button-logout">Logout</Action>
+	</aside>
+</section>
+
+<style>
+	section {
+		display: grid;
+		grid-template-areas: "image aside";
+	}
+
+	div {
+		display: flex;
+		aspect-ratio: 1 / 1;
+		width: 300px;
+		height: 300px;
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 1px solid var(--color-text);
+	}
+
+	aside {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	}
+</style>
+
+<script>
+	const { navigate } = await import("astro:transitions/client")
+	const buttonLogout = document.getElementById("button-logout") as HTMLButtonElement
+	if (buttonLogout) {
+		buttonLogout.addEventListener("click", () => {
+			navigate("/api/logout")
+		})
+	}
+</script>

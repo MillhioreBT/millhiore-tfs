@@ -1,0 +1,71 @@
+---
+import Action from "@@/Action.astro"
+---
+
+<aside>
+	<article>
+		<small>New Product</small>
+		<h1>Millhiore<span>TFS</span> 1.6</h1>
+		<p>Here you can find the best LUA scripts created by Sarah Wesker.</p>
+		<section>
+			<Action as="a" class="Button Resalt" href="/docs">Get Started</Action>
+			<Action as="a" class="Button" href="/docs">Buy Now</Action>
+		</section>
+	</article>
+	<div>
+		<img src="/favicon.png" alt="Product Image" />
+	</div>
+</aside>
+
+<style>
+	aside {
+		display: grid;
+		grid-template-areas: "title image";
+	}
+
+	article {
+		grid-area: title;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	h1 {
+		font-size: clamp(3em, 1vw, 1em);
+
+		span {
+			color: var(--color-accent);
+		}
+	}
+
+	p {
+		font-size: clamp(1em, 1vw, 2em);
+	}
+
+	section {
+		display: flex;
+		gap: 1rem;
+	}
+
+	img {
+		grid-area: image;
+		max-width: 100%;
+	}
+
+	@media (width <= 1110px) {
+		aside {
+			grid-template-areas: "image" "title";
+		}
+
+		article {
+			align-items: center;
+			text-align: center;
+		}
+
+		img {
+			width: 100%;
+		}
+	}
+</style>

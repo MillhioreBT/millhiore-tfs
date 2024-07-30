@@ -1,0 +1,6 @@
+{
+    "workbench.editor.customLabels.patterns": {
+        "**/*.ts": "${filename}",
+        "**/*.astro": "${filename}",
+    }
+}

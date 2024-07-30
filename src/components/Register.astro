@@ -1,0 +1,68 @@
+---
+import Action from "@@/Action.astro"
+---
+
+<form id="register-form">
+	<label>Register</label>
+	<Action as="input" name="email" type="email" placeholder="Email" />
+	<Action as="input" name="username" type="text" placeholder="Username" />
+	<Action as="input" name="password" type="password" placeholder="Password" />
+	<Action as="input" name="repeatPassword" type="password" placeholder="Repeat Password" />
+	<Action as="button" type="submit">Register</Action>
+	<Action as="a" href="/login" role="button" aria-label="Button to go to the Login page"
+		>Login</Action
+	>
+</form>
+
+<style>
+	form {
+		width: 400px;
+		display: grid;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	#Register-Email,
+	#Register-Password,
+	#Register-Re-Password {
+		width: 100%;
+	}
+
+	label {
+		text-align: center;
+		font-size: 2rem;
+		color: var(--color-accent);
+	}
+
+	@media (width <= 1110px) {
+		form {
+			width: 100%;
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const $form = document.getElementById("register-form") as HTMLFormElement
+		if (!$form) return
+
+		$form.addEventListener("submit", async (event) => {
+			event.preventDefault()
+			const response = await fetch("/api/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(Object.fromEntries(new FormData($form))),
+			})
+
+			if (response.ok) {
+				window.location.href = "/dashboard"
+			} else {
+				const { email, username, password, repeatPassword } = await response.json()
+				const errorMessage = email || username || password || repeatPassword
+				alert(errorMessage || "An error occurred")
+			}
+		})
+	})
+</script>

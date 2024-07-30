@@ -1,0 +1,72 @@
+---
+import Index from "@/components/containers/docs/Index.astro"
+
+interface Props {
+	index: string | null
+}
+
+const { index } = Astro.props
+---
+
+<nav id="Docs-Nav">
+	<div>
+		<Index
+			index={index}
+			title="Welcome, Tibian!"
+			list={["Getting Started", "Installation and Setup", "Deploy your Server", "Tutorial"]}
+		/>
+		<Index
+			index={index}
+			title="Learn the Basics"
+			list={["Project Structure", "Revscripts", "Templates", "Integrations", "HTTP Server"]}
+		/>
+		<Index index={index} title="Assets" list={["Sprites", "Objects"]} />
+		<Index index={index} title="Connect Your Data" list={["MySql", "Turso DB", "HTTP Client"]} />
+	</div>
+</nav>
+
+<style>
+	nav {
+		grid-area: index;
+		display: flex;
+		flex-direction: column;
+		place-items: center;
+		height: 100%;
+		background-color: var(--color-secondary);
+		padding: 2rem;
+		overflow: auto;
+		scrollbar-gutter: stable;
+	}
+
+	nav::-webkit-scrollbar {
+		width: 10px;
+		height: 100%;
+	}
+
+	nav::-webkit-scrollbar-track {
+		background: var(--color-secondary);
+		border-radius: 0.2rem;
+	}
+
+	nav::-webkit-scrollbar-thumb {
+		background: var(--color-accent);
+		border: 2px solid var(--color-secondary);
+		border-radius: 0.5rem;
+	}
+
+	div {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	@media (width <= 1110px) {
+		nav {
+			display: none;
+			grid-area: none;
+			flex-direction: column;
+			place-content: center;
+			place-items: center;
+		}
+	}
+</style>

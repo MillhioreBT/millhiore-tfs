@@ -1,0 +1,71 @@
+---
+import type { HTMLTag, Polymorphic } from "astro/types"
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }>
+
+const { as: Tag, class: className, ...props } = Astro.props
+
+const titleCase = (str: string) => str[0].toUpperCase() + str.slice(1)
+---
+
+<Tag class:list={["Action", `${titleCase(Tag)}`, className]} {...props}>
+	<span class="Span"><slot /></span>
+</Tag>
+
+<style is:global>
+	.Action {
+		display: flex;
+		place-content: center;
+		place-items: center;
+		padding: 0 16px;
+		min-width: 100px;
+		max-height: 48px;
+		color: var(--color-text);
+		text-decoration: none;
+		padding: 0.5rem;
+		border-radius: 0.2rem;
+		transition:
+			background-color 0.2s,
+			transform 0.2s;
+	}
+
+	.Action:hover {
+		background-color: #2d2f2f;
+	}
+
+	.Action:active {
+		transform: translate3d(3px, 3px, 0);
+	}
+
+	.Span {
+		display: flex;
+		place-content: center;
+		place-items: center;
+		gap: 0.5rem;
+	}
+
+	.Button {
+		background-color: var(--color-secondary);
+		border: 0;
+		font-size: clamp(1em, 1vw, 2em);
+		font-family: var(--font-default);
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.Resalt {
+		background-color: var(--color-accent);
+	}
+
+	.Input {
+		background-color: var(--color-secondary);
+		border: 0;
+		font-size: clamp(1em, 1vw, 2em);
+		font-family: var(--font-default);
+		color: var(--color-text);
+	}
+
+	.Input:focus {
+		outline: none;
+	}
+</style>
