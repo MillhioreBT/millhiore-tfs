@@ -8,5 +8,5 @@
       "&/*": ["./libs/*"]
     }
   },
-  "exclude": ["public"]
+  "exclude": ["public"],
 }

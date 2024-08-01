@@ -6,7 +6,10 @@ import Action from "@@/Action.astro"
 	<article>
 		<small>New Product</small>
 		<h1>Millhiore<span>TFS</span> 1.6</h1>
-		<p>Here you can find the best LUA scripts created by Sarah Wesker.</p>
+		<p>
+			Create your Tibia version 8.60 server very easily and quickly. You will also find Lua scripts
+			to add functionality to your server.
+		</p>
 		<section>
 			<Action as="a" class="Button Resalt" href="/docs">Get Started</Action>
 			<Action as="a" class="Button" href="/docs">Buy Now</Action>
@@ -24,6 +27,7 @@ import Action from "@@/Action.astro"
 	}
 
 	article {
+		width: 600px;
 		grid-area: title;
 		display: flex;
 		flex-direction: column;
@@ -42,6 +46,7 @@ import Action from "@@/Action.astro"
 
 	p {
 		font-size: clamp(1em, 1vw, 2em);
+		text-align: center;
 	}
 
 	section {
@@ -60,6 +65,7 @@ import Action from "@@/Action.astro"
 		}
 
 		article {
+			width: 100%;
 			align-items: center;
 			text-align: center;
 		}

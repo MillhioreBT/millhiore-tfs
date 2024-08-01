@@ -5,7 +5,12 @@ import { scripts } from "&/schema"
 import crypto from "node:crypto"
 
 export const POST: APIRoute = async ({ params, request, locals }) => {
-	const isAdminUser = locals.session?.role === "admin"
+	const session = locals.session
+	if (!session) {
+		return new Response(null, { status: 401 })
+	}
+
+	const isAdminUser = session.role === "admin"
 	if (!isAdminUser) {
 		return new Response(null, { status: 401 })
 	}
@@ -15,13 +20,17 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
 	type insertScript = typeof scripts.$inferInsert
 	const script: insertScript = {
 		id: crypto.randomUUID(),
-		userId: "1",
+		userId: session.id,
 		name: id,
 		content,
 	}
 
-	await db.insert(scripts).values(script)
-	return new Response(null, { status: 200 })
+	try {
+		await db.insert(scripts).values(script)
+		return new Response(null, { status: 200 })
+	} catch (e) {
+		return new Response(null, { status: 500 })
+	}
 }
 
 export const GET: APIRoute = async ({ params }) => {
@@ -30,12 +39,16 @@ export const GET: APIRoute = async ({ params }) => {
 		return new Response(null, { status: 400 })
 	}
 
-	const results = await db.select().from(scripts).where(eq(scripts.name, name))
-	if (!results || results.length === 0) {
-		return new Response(JSON.stringify({ message: `No script found with the name: ${name}` }), {
-			status: 404,
-		})
-	}
+	try {
+		const results = await db.select().from(scripts).where(eq(scripts.name, name))
+		if (!results || results.length === 0) {
+			return new Response(JSON.stringify({ message: `No script found with the name: ${name}` }), {
+				status: 404,
+			})
+		}
 
-	return new Response(results[0].content, { status: 200 })
+		return new Response(results[0].content, { status: 200 })
+	} catch (e) {
+		return new Response(null, { status: 500 })
+	}
 }

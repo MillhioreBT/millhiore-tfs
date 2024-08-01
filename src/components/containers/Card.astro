@@ -7,17 +7,17 @@ interface Props {
 const { title, description } = Astro.props
 ---
 
-<article>
+<li>
 	<header>
-		<h3><slot /> {title}</h3>
+		<h1><slot /> {title}</h1>
 	</header>
 	<section>
 		<p>{description}</p>
 	</section>
-</article>
+</li>
 
 <style>
-	article {
+	li {
 		display: grid;
 		grid-template-areas: "header" "cards";
 		background-color: var(--color-secondary);
@@ -43,7 +43,7 @@ const { title, description } = Astro.props
 		gap: 1rem;
 	}
 
-	h3 {
+	h1 {
 		display: flex;
 		gap: 1rem;
 		place-items: center;

@@ -20,23 +20,27 @@ import {
 import { REFRESH_TOKEN_MAX_USES } from "&/config"
 
 const getSessionUser = async (id: string): Promise<Session | undefined> => {
-	const foundUsers = await db.select().from(users).where(eq(users.id, id))
+	try {
+		const foundUsers = await db.select().from(users).where(eq(users.id, id))
 
-	if (foundUsers.length === 0) {
+		if (foundUsers.length === 0) {
+			return undefined
+		}
+
+		const user = foundUsers[0]
+
+		const sessionUser: Session = {
+			id: user.id,
+			username: user.username || "no provided",
+			email: user.email || "no provided",
+			role: user.role || "user",
+			tokens: user.tokens || 0,
+		}
+
+		return sessionUser
+	} catch (e) {
 		return undefined
 	}
-
-	const user = foundUsers[0]
-
-	const sessionUser: Session = {
-		id: user.id,
-		username: user.username || "no provided",
-		email: user.email || "no provided",
-		role: user.role || "user",
-		tokens: user.tokens || 0,
-	}
-
-	return sessionUser
 }
 
 export const getSession = async (
@@ -72,7 +76,6 @@ export const deleteSession = (cookies: AstroCookies) => {
 
 export const getRefreshSession = async (cookies: AstroCookies) => {
 	const refreshToken = getRefreshToken(cookies)
-	console.log(refreshToken)
 	if (refreshToken === undefined) {
 		deleteAccessToken(cookies)
 		return undefined

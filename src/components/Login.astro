@@ -3,9 +3,9 @@ import Action from "@@/Action.astro"
 ---
 
 <form id="login-form">
-	<label>Login</label>
-	<Action as="input" name="email" type="email" placeholder="Email" />
-	<Action as="input" name="password" type="password" placeholder="Password" />
+	<h3>Login</h3>
+	<Action as="input" name="email" type="email" placeholder="Email" autocomplete="give-email" />
+	<Action as="input" name="password" type="password" placeholder="Password" autocomplete="off" />
 	<Action as="button" id="button-login" type="submit">Login</Action>
 	<Action as="a" href="/register" role="button" aria-label="Button to go to the Register page"
 		>Register</Action
@@ -25,7 +25,7 @@ import Action from "@@/Action.astro"
 		width: 100%;
 	}
 
-	label {
+	h3 {
 		text-align: center;
 		font-size: 2rem;
 		color: var(--color-accent);

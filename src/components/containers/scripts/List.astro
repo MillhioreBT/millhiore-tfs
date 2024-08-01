@@ -6,7 +6,13 @@ const scripts = await getScripts()
 ---
 
 <ul>
-	{scripts.map((script) => <ScriptCard script={script} />)}
+	{
+		scripts === undefined ? (
+			<h1>Scripts could not be loaded!</h1>
+		) : (
+			scripts.map((script) => <ScriptCard script={script} />)
+		)
+	}
 </ul>
 
 <style>

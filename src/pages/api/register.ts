@@ -33,26 +33,31 @@ export const POST: APIRoute = async ({ cookies, request }) => {
 		return new Response(JSON.stringify(issues), { status: 400 })
 	}
 
-	const foundUsers = await db.select().from(users).where(eq(users.email, email))
-	if (foundUsers.length !== 0) {
-		return new Response(JSON.stringify({ email: "Email already exists" }), { status: 409 })
-	}
+	try {
+		const foundUsers = await db.select().from(users).where(eq(users.email, email))
+		if (foundUsers.length !== 0) {
+			return new Response(JSON.stringify({ email: "Email already exists" }), { status: 409 })
+		}
 
-	type insertUser = typeof users.$inferInsert
-	const user: insertUser = {
-		id: crypto.randomUUID(),
-		email,
-		username,
-		password: await bcrypt.hash(password, SALT_ROUNDS),
-	}
+		type insertUser = typeof users.$inferInsert
+		const user: insertUser = {
+			id: crypto.randomUUID(),
+			email,
+			username,
+			password: await bcrypt.hash(password, SALT_ROUNDS),
+			tokens: NEW_ACCOUNT_TOKENS,
+		}
 
-	await db.insert(users).values(user)
-	createSession(cookies, {
-		id: user.id,
-		username: user.username || "no provided",
-		email: user.email || "no provided",
-		role: user.role || "user",
-		tokens: NEW_ACCOUNT_TOKENS,
-	})
-	return new Response(null, { status: 200 })
+		await db.insert(users).values(user)
+		createSession(cookies, {
+			id: user.id,
+			username: user.username || "no provided",
+			email: user.email || "no provided",
+			role: user.role || "user",
+			tokens: user.tokens || 0,
+		})
+		return new Response(null, { status: 200 })
+	} catch (e) {
+		return new Response(null, { status: 500 })
+	}
 }

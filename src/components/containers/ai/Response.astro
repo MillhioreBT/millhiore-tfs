@@ -1,24 +1,50 @@
 ---
 import { getGeneratedText } from "&/perplexity"
+import { useToken } from "&/user"
 import AICard from "@@/containers/ai/Card.astro"
+import { Code } from "astro:components"
 interface Props {
+	session?: Session
 	question: string | null
 }
 
-const { question } = Astro.props
+const { session, question } = Astro.props
 
 let response = "I'm here to help you, what do you need?"
-if (question) {
+if (session && session.tokens > 0 && question) {
+	await useToken(session)
 	response = await getGeneratedText(question)
+} else if (session && session.tokens <= 0) {
+	response = "You don't have enough tokens to ask me a question."
+} else {
+	response = "You need to be logged in to ask me a question."
+}
+
+let code = undefined
+let searchCode = response.search("<code>")
+if (searchCode !== -1) {
+	code = response.slice(searchCode + 6, response.lastIndexOf("</code>"))
+	response = response.replace(`<code>${code}</code>`, "")
+} else {
+	searchCode = response.search("```")
+	if (searchCode !== -1) {
+		code = response.slice(searchCode + 3, response.lastIndexOf("```"))
+		response = response.replace(`\`\`\`${code}\`\`\``, "")
+	}
 }
 ---
 
 <AICard>
 	<article set:html={response} />
+	{code && <Code id="response-code" code={code} lang="lua" />}
 </AICard>
 
 <style>
 	article {
 		text-align: center;
+	}
+
+	#response-code {
+		text-align: left;
 	}
 </style>

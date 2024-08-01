@@ -1,7 +1,7 @@
 ---
 import Action from "@@/Action.astro"
+import SearchAI from "@@/containers/tfs/Search.astro"
 import MenuSVG from "@@/icons/Menu.astro"
-import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
 ---
 
 <header>
@@ -12,14 +12,7 @@ import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
 	</label>
 	<nav id="Docs-Header-Nav">
 		<div>
-			<Action as="input" id="Search-Input" type="search" placeholder="Ask AI" />
-			<Action
-				as="button"
-				role="button"
-				aria-label="Button to start search with AI"
-				id="Search-Button"
-				type="submit"><VercelStarsAI class="Search-Stars" />Search</Action
-			>
+			<SearchAI />
 		</div>
 	</nav>
 </header>
@@ -165,26 +158,28 @@ import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
 		const $root = document.documentElement
 		window.addEventListener("resize", () => {
 			if (window.innerWidth > 1110) {
-				$menu.checked = false
+				if ($menu) $menu.checked = false
 				$main.inert = false
 				$root.style.removeProperty("overflow")
-				$docsContainer.appendChild($docsNav)
-				$docsNav.removeAttribute("style")
+				if ($docsContainer) $docsContainer.appendChild($docsNav)
+				if ($docsNav) $docsNav.removeAttribute("style")
 			}
 		})
 
-		$menu.addEventListener("change", () => {
-			$main.inert = $menu.checked
-			if ($menu.checked) {
-				$root.style.overflow = "hidden"
-				$docsHeaderNav.appendChild($docsNav)
-				$docsNav.style.display = "flex"
-				$docsNav.style.backgroundColor = "var(--color-background)"
-			} else {
-				$root.removeAttribute("style")
-				$docsContainer.appendChild($docsNav)
-				$docsNav.removeAttribute("style")
-			}
-		})
+		if ($menu) {
+			$menu.addEventListener("change", () => {
+				$main.inert = $menu.checked
+				if ($menu.checked) {
+					$root.style.overflow = "hidden"
+					if ($docsHeaderNav) $docsHeaderNav.appendChild($docsNav)
+					$docsNav.style.display = "flex"
+					$docsNav.style.backgroundColor = "var(--color-background)"
+				} else {
+					$root.removeAttribute("style")
+					if ($docsContainer) $docsContainer.appendChild($docsNav)
+					$docsNav.removeAttribute("style")
+				}
+			})
+		}
 	})
 </script>

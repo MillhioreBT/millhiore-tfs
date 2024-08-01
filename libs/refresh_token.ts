@@ -71,7 +71,6 @@ export const updateRefreshToken = (
 		}
 
 		const encodeToken: JwtTokenEncode = updateToken<RefreshToken>(REFRESH_TOKEN_KEY, refreshToken)
-		console.log(refreshToken.uses)
 		cookies.set("refresh_token", encodeToken, {
 			maxAge: refreshToken.exp,
 			path: "/api/refresh",

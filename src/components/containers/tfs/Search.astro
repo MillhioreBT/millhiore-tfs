@@ -1,0 +1,22 @@
+---
+import Action from "@@/Action.astro"
+import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
+---
+
+<form action="/ai" method="POST">
+	<Action as="input" name="question" type="search" placeholder="Ask AI" autocomplete="off" />
+	<Action
+		as="button"
+		role="button"
+		aria-label="Button to start search with AI"
+		id="Search-Button"
+		type="submit"><VercelStarsAI class="Search-Stars" />Search</Action
+	>
+</form>
+
+<style>
+	form {
+		display: flex;
+		gap: 1rem;
+	}
+</style>

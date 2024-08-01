@@ -20,8 +20,8 @@ export const AIContext = `
 		HTTP Client -> /docs?index=http-client#Connect Your Data
 
 	Scripts links:
-	-> Ver scripts -> /scripts
-	-> Como crear un script -> /docs?index=revscripts#Learn the Basics
+	-> View scripts -> /scripts
+	-> How to create a script -> /docs?index=revscripts#Learn the Basics
 
 	Authentication links:
 	-> Login -> /login
@@ -34,10 +34,10 @@ export const AIContext = `
 	-> Twitter / X -> hhttps://x.com/SarahSeleny
 	-> GitHub -> https://github.com/MillhioreBT
 
-	Nombre de la pagina web -> MillhioreTFS
-	Creador de la pagina web -> Sarah Wesker
-	Pagina creada con -> Astro
-	La base de datos es -> Turso DB
-	El servidor es -> Forgotten Server Downgrades
-	El Lenguage de programacion es -> Lua
+	Website name -> MillhioreTFS
+	Website creator -> Sarah Wesker
+	Page created with -> Astro
+	The database is -> Turso DB
+	The server is -> Forgotten Server Downgrades
+	The programming language is -> Lua
 `

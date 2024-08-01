@@ -8,10 +8,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 		return next()
 	}
 
-	console.log(session)
-
 	if (session === "expire" && context.url.pathname !== "/api/refresh") {
-		console.log("Session expired")
 		const currentUrl = encodeURIComponent(context.url.pathname + context.url.search)
 		return context.redirect(`/api/refresh?redirect=${currentUrl}`)
 	}

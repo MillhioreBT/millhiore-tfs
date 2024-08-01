@@ -1,7 +1,7 @@
 ---
 import Action from "@@/Action.astro"
+import SearchAI from "@@/containers/tfs/Search.astro"
 import MenuSVG from "@@/icons/Menu.astro"
-import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
 
 const session = Astro.locals.session
 ---
@@ -13,21 +13,7 @@ const session = Astro.locals.session
 		<MenuSVG />
 	</label>
 	<nav>
-		<form action="/ai" method="POST">
-			<Action
-				as="input"
-				name="question"
-				type="search"
-				placeholder={`Ask AI - Tokens: ${session?.tokens ?? 0}`}
-			/>
-			<Action
-				as="button"
-				role="button"
-				aria-label="Button to start search with AI"
-				id="Search-Button"
-				type="submit"><VercelStarsAI class="Search-Stars" />Search</Action
-			>
-		</form>
+		<SearchAI />
 		<Action as="a" href="/" role="button" aria-label="Button to go to the Home page">Home</Action>
 		<Action as="a" href="/scripts" role="button" aria-label="Button to go to the Scripts page"
 			>Scripts</Action
@@ -90,11 +76,6 @@ const session = Astro.locals.session
 		display: flex;
 		gap: 1rem;
 		padding: 0 2rem;
-	}
-
-	form {
-		display: flex;
-		gap: 1rem;
 	}
 
 	a {
@@ -183,22 +164,24 @@ const session = Astro.locals.session
 			const $root = document.documentElement
 			window.addEventListener("resize", () => {
 				if (window.innerWidth > 1110) {
-					$menu.checked = false
+					if ($menu) $menu.checked = false
 					$main.inert = false
-					$footer.inert = false
+					if ($footer) $footer.inert = false
 					$root.style.removeProperty("overflow")
 				}
 			})
 
-			$menu.addEventListener("change", () => {
-				$main.inert = $menu.checked
-				$footer.inert = $menu.checked
-				if ($menu.checked) {
-					$root.style.overflow = "hidden"
-				} else {
-					$root.removeAttribute("style")
-				}
-			})
+			if ($menu) {
+				$menu.addEventListener("change", () => {
+					$main.inert = $menu.checked
+					if ($footer) $footer.inert = $menu.checked
+					if ($menu.checked) {
+						$root.style.overflow = "hidden"
+					} else {
+						$root.removeAttribute("style")
+					}
+				})
+			}
 		}
 	})
 </script>

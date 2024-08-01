@@ -22,25 +22,31 @@ export const POST: APIRoute = async ({ cookies, request }) => {
 		return new Response(JSON.stringify(issues), { status: 400 })
 	}
 
-	const foundUsers = await db.select().from(users).where(eq(users.email, email))
-	if (foundUsers.length === 0) {
-		return new Response(JSON.stringify({ email: "Email or Password incorrect" }), { status: 404 })
-	}
-
-	const user = foundUsers[0]
-	if (user.password) {
-		const passwordMatch = await bcrypt.compare(password, user.password)
-		if (!passwordMatch) {
+	try {
+		const foundUsers = await db.select().from(users).where(eq(users.email, email))
+		if (foundUsers.length === 0) {
 			return new Response(JSON.stringify({ email: "Email or Password incorrect" }), { status: 404 })
 		}
-	}
 
-	createSession(cookies, {
-		id: user.id,
-		username: user.username || "no provided",
-		email: user.email || "no provided",
-		role: user.role || "user",
-		tokens: user.tokens || 0,
-	})
-	return new Response(null, { status: 200 })
+		const user = foundUsers[0]
+		if (user.password) {
+			const passwordMatch = await bcrypt.compare(password, user.password)
+			if (!passwordMatch) {
+				return new Response(JSON.stringify({ email: "Email or Password incorrect" }), {
+					status: 404,
+				})
+			}
+		}
+
+		createSession(cookies, {
+			id: user.id,
+			username: user.username || "no provided",
+			email: user.email || "no provided",
+			role: user.role || "user",
+			tokens: user.tokens || 0,
+		})
+		return new Response(null, { status: 200 })
+	} catch (e) {
+		return new Response(null, { status: 500 })
+	}
 }

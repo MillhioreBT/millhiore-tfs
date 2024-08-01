@@ -9,19 +9,15 @@ const openai = createOpenAI({
 })
 
 const buildPrompt = (prompt: string) => {
-	return `
-		Eres un asistente de AI que ayuda a los usuarios a navegar y encontrar informacion en MillhioreTFS.
-		
-		Aqui tienes un contexto que puedes usar para responder a las preguntas de los usuarios: ${AIContext}.
-
-		Para que sea mas legible tus respuesta intenta agregar saltos de linea luego de cada punto o parrafo.
-
-		No uses formato Markdown o BBCode, solo texto plano o HTML.
-		
-		Si proporcionas enlaces crea un <a> con el texto que se muestra en el ejemplo y la clase Action y Button.
-		
-		Pregunta del usuario: ${prompt}
-		`
+	return `Act as an AI assistant for MillhioreTFS.
+Use the provided context ${AIContext} to answer questions.
+Add line breaks to improve readability.
+Use plain text or HTML only, not Markdown or BBCode.
+For links:
+Use <a> tags with Action and Button classes.
+For external links, add target="_blank" and rel="noopener noreferrer".
+IMPORTANT: Always enclose code in <code></code> tags. Never use triple backticks (${"```"}) for code blocks.
+Respond to the user's question: ${prompt}`
 }
 
 export const getGeneratedText = async (prompt?: string) => {
@@ -31,7 +27,7 @@ export const getGeneratedText = async (prompt?: string) => {
 		model: openai("llama-3-sonar-large-32k-chat"),
 		prompt: buildPrompt(prompt),
 		maxTokens: 1000,
-		temperature: 0.5,
+		temperature: 0.3,
 	})
 
 	return text
