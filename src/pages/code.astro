@@ -3,8 +3,9 @@ import CodeLayout from "@/layouts/Code.astro"
 import Layout from "@/layouts/Layout.astro"
 
 const scriptId = Astro.url.searchParams.get("scriptId") || "example.lua"
+const session = Astro.locals.session
 ---
 
 <Layout title="MillhioreTFS - code">
-	<CodeLayout title="Code Editor" scriptId={scriptId} />
+	<CodeLayout session={session} title="Code Editor" scriptId={scriptId} />
 </Layout>
