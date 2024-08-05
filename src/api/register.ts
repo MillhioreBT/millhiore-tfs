@@ -7,24 +7,20 @@ import { SALT_ROUNDS, NEW_ACCOUNT_TOKENS } from "&/config"
 
 import bcrypt from "bcrypt"
 
-export const registerSchema = z
-	.object({
-		email: z
-			.string({ message: "Expected a valid email" })
-			.email({ message: "Expected a valid email" }),
-		username: z
-			.string({ message: "Expected a username with at least 3 characters" })
-			.min(3),
-		password: z
-			.string({ message: "Expected a password with at least 8 characters" })
-			.min(8),
-		repeatPassword: z
-			.string({ message: "Expected a password with at least 8 characters" })
-			.min(8),
-	})
-	.refine((data) => data.password === data.repeatPassword, {
-		message: "Passwords do not match",
-	})
+export const registerSchema = z.object({
+	email: z
+		.string({ message: "Expected a valid email" })
+		.email({ message: "Expected a valid email" }),
+	username: z
+		.string({ message: "Expected a username with at least 3 characters" })
+		.min(3),
+	password: z
+		.string({ message: "Expected a password with at least 8 characters" })
+		.min(8),
+	repeatPassword: z
+		.string({ message: "Expected a password with at least 8 characters" })
+		.min(8),
+})
 
 export const registerAction = defineAction({
 	accept: "form",
