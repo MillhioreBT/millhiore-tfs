@@ -1,54 +1,32 @@
-# Astro Starter Kit: Basics
-
+## Clone the project repository
 ```sh
-npm create astro@latest -- --template basics
+gh repo clone MillhioreBT/millhiore-tfs
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## Screenshots
+![image](https://github.com/user-attachments/assets/6667532a-b564-4946-b3d2-2df004a30c04)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+## Open the terminal in the root folder of the project and run the following command
+```sh
+pnpm install
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Configure the `env.` file
+```
+TURSO_DATABASE_URL='libsql://example.turso.io'
+TURSO_AUTH_TOKEN=''
+ACCESS_TOKEN_KEY=''
+ACCESS_TOKEN_EXPIRES_IN='1d'
+REFRESH_TOKEN_KEY=''
+REFRESH_TOKEN_EXPIRES_IN='7d'
+REFRESH_TOKEN_MAX_USES=3
+GITHUB_CLIENT_ID=''
+GITHUB_CLIENT_SECRET=''
+PERPLEXITY_API_KEY=''
+NEW_ACCOUNT_TOKENS=3
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Now you can start the project in development mode locally
+```sh
+pnpm dev
+```
