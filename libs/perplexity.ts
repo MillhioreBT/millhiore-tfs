@@ -20,15 +20,30 @@ IMPORTANT: Always enclose code in <code></code> tags. Never use triple backticks
 Respond to the user's question: ${prompt}`
 }
 
-export const getGeneratedText = async (prompt?: string) => {
-	if (!prompt) return ""
+const getCodeFromText = (text: string) => {
+	const codeRegex = /```(lua)?\n*(.*?)\n*```/gs
+	const matches = text.match(codeRegex)
+	if (!matches) return ""
 
-	const { text } = await generateText({
+	return matches
+		.map((match) => {
+			const codeMatch = /```(lua)?\n*(.*?)\n*```/s.exec(match)
+			return codeMatch ? codeMatch[2] : ""
+		})
+		.join("\n")
+}
+
+export const getGeneratedText = async (prompt?: string) => {
+	if (!prompt) return { text: "", code: "" }
+
+	let { text } = await generateText({
 		model: openai("llama-3-sonar-large-32k-chat"),
 		prompt: buildPrompt(prompt),
 		maxTokens: 1000,
 		temperature: 0.3,
 	})
 
-	return text
+	const code = getCodeFromText(text)
+	text = text.replace(/```(lua)?\n*(.*?)\n*```/gs, "")
+	return { text, code }
 }

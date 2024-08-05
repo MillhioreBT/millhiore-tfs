@@ -1,13 +1,15 @@
 ---
 import Layout from "@/layouts/Layout.astro"
 import LoginPage from "@@/Login.astro"
+import { actions, isInputError } from "astro:actions"
 
-const session = Astro.locals.session
-if (session) {
-	return Astro.redirect("/dashboard")
-}
+if (Astro.locals.session) return Astro.redirect("/dashboard")
+const result = Astro.getActionResult(actions.login)
+if (result && !result.error) return Astro.redirect("/dashboard")
+
+const errors = isInputError(result?.error) ? result.error.fields : {}
 ---
 
 <Layout title="MillhioreTFS - login">
-	<LoginPage />
+	<LoginPage errors={errors} />
 </Layout>

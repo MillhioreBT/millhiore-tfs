@@ -16,7 +16,9 @@ const isAdminUser = Astro.locals.session?.role === "admin"
 	<h1>{`${title} - ${scriptId}`}</h1>
 	<iframe title={title} width="100%" height="100%" src={URL}></iframe>
 	<div>
-		<Action as="button" id="Save-Code" type="button" disabled={!isAdminUser}>Save</Action>
+		<Action as="button" id="Save-Code" type="button" disabled={!isAdminUser}
+			>Save</Action
+		>
 		<Action as="button" id="Download-Code" type="button">Download</Action>
 	</div>
 </>
@@ -41,7 +43,9 @@ const isAdminUser = Astro.locals.session?.role === "admin"
 	document.addEventListener("DOMContentLoaded", async () => {
 		const iframe = document.querySelector("iframe") as HTMLIFrameElement
 		const copyCode = document.getElementById("Save-Code") as HTMLButtonElement
-		const downloadCode = document.getElementById("Download-Code") as HTMLButtonElement
+		const downloadCode = document.getElementById(
+			"Download-Code"
+		) as HTMLButtonElement
 		copyCode.addEventListener("click", () => {
 			iframe.contentWindow?.postMessage("save", "*")
 		})

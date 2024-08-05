@@ -1,13 +1,14 @@
-import { defineConfig } from "astro/config";
+import { defineConfig } from "astro/config"
 
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel/serverless"
 
 // https://astro.build/config
 export default defineConfig({
-  output: "server",
-  integrations: [],
-  experimental: {
-    serverIslands: true
-  },
-  adapter: vercel()
-});
+	output: "server",
+	integrations: [],
+	experimental: {
+		serverIslands: true,
+		actions: true,
+	},
+	adapter: vercel(),
+})

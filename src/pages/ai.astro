@@ -2,22 +2,21 @@
 import Layout from "@/layouts/Layout.astro"
 import AICard from "@@/containers/ai/Card.astro"
 import AIResponse from "@@/containers/ai/Response.astro"
+import Loader from "@@/icons/Loader.astro"
+import { actions } from "astro:actions"
 
-const session = Astro.locals.session
 let question = undefined
-
 try {
-	const data = await Astro.request.formData()
-	question = data.get("question")?.toString() ?? ""
+	question = Astro.getActionResult(actions.ai)?.data
 } catch (error) {
-	question = ""
+	// Silent ignore
 }
 ---
 
 <Layout title="MillhioreTFS - AI Response">
-	<AIResponse server:defer session={session} question={question}>
+	<AIResponse server:defer question={question}>
 		<AICard slot="fallback">
-			<p>Waiting for a question...</p>
+			<Loader />
 		</AICard>
 	</AIResponse>
 </Layout>

@@ -1,10 +1,17 @@
 ---
 import Action from "@@/Action.astro"
 import VercelStarsAI from "@@/icons/VercelStarsAI.astro"
+import { actions } from "astro:actions"
 ---
 
-<form action="/ai" method="POST">
-	<Action as="input" name="question" type="search" placeholder="Ask AI" autocomplete="off" />
+<form method="POST" action={`/ai${actions.ai}`}>
+	<Action
+		as="input"
+		name="question"
+		type="search"
+		placeholder="Ask AI"
+		autocomplete="off"
+	/>
 	<Action
 		as="button"
 		role="button"

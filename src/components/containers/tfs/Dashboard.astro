@@ -1,11 +1,8 @@
 ---
 import Action from "@/components/Action.astro"
+import { actions } from "astro:actions"
 
-interface Props {
-	session?: Session
-}
-
-const { session } = Astro.props
+const session = Astro.locals.session
 ---
 
 <section>
@@ -15,7 +12,9 @@ const { session } = Astro.props
 	<aside>
 		<h3>Welcomen {session?.email ?? ""}!</h3>
 		<label>Your tokens: {session?.tokens ?? 0}</label>
-		<Action as="button" id="button-logout">Logout</Action>
+		<form method="POST" action={actions.logout}>
+			<Action as="button" type="submit">Logout</Action>
+		</form>
 	</aside>
 </section>
 
@@ -24,9 +23,11 @@ const { session } = Astro.props
 		display: grid;
 		grid-template-areas: "image aside";
 		gap: 1rem;
+		place-items: center;
 	}
 
 	div {
+		grid-area: image;
 		display: flex;
 		aspect-ratio: 1 / 1;
 		width: 300px;
@@ -42,20 +43,18 @@ const { session } = Astro.props
 	}
 
 	aside {
+		grid-area: aside;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+		text-align: center;
 		gap: 1rem;
 	}
-</style>
 
-<script>
-	const { navigate } = await import("astro:transitions/client")
-	const buttonLogout = document.getElementById("button-logout") as HTMLButtonElement
-	if (buttonLogout) {
-		buttonLogout.addEventListener("click", () => {
-			navigate("/api/logout")
-		})
+	@media (width < 1110px) {
+		section {
+			grid-template-areas: "image" "aside";
+		}
 	}
-</script>
+</style>

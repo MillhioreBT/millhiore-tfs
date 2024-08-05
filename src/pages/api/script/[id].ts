@@ -40,11 +40,17 @@ export const GET: APIRoute = async ({ params }) => {
 	}
 
 	try {
-		const results = await db.select().from(scripts).where(eq(scripts.name, name))
+		const results = await db
+			.select()
+			.from(scripts)
+			.where(eq(scripts.name, name))
 		if (!results || results.length === 0) {
-			return new Response(JSON.stringify({ message: `No script found with the name: ${name}` }), {
-				status: 404,
-			})
+			return new Response(
+				JSON.stringify({ message: `No script found with the name: ${name}` }),
+				{
+					status: 404,
+				}
+			)
 		}
 
 		return new Response(results[0].content, { status: 200 })

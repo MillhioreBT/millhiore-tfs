@@ -13,15 +13,30 @@ const { index } = Astro.props
 		<Index
 			index={index}
 			title="Welcome, Tibian!"
-			list={["Getting Started", "Installation and Setup", "Deploy your Server", "Tutorial"]}
+			list={[
+				"Getting Started",
+				"Installation and Setup",
+				"Deploy your Server",
+				"Tutorial",
+			]}
 		/>
 		<Index
 			index={index}
 			title="Learn the Basics"
-			list={["Project Structure", "Revscripts", "Templates", "Integrations", "HTTP Server"]}
+			list={[
+				"Project Structure",
+				"Revscripts",
+				"Templates",
+				"Integrations",
+				"HTTP Server",
+			]}
 		/>
 		<Index index={index} title="Assets" list={["Sprites", "Objects"]} />
-		<Index index={index} title="Connect Your Data" list={["MySql", "Turso DB", "HTTP Client"]} />
+		<Index
+			index={index}
+			title="Connect Your Data"
+			list={["MySql", "Turso DB", "HTTP Client"]}
+		/>
 	</div>
 </nav>
 

@@ -1,8 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro"
 import RegisterPage from "@@/Register.astro"
+import { actions, isInputError } from "astro:actions"
+
+const result = Astro.getActionResult(actions.register)
+if (result && !result.error) {
+	return Astro.redirect("/dashboard")
+}
+
+const errors = isInputError(result?.error) ? result.error.fields : {}
 ---
 
 <Layout title="MillhioreTFS - register">
-	<RegisterPage />
+	<RegisterPage errors={errors} />
 </Layout>

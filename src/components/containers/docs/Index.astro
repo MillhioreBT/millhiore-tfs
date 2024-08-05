@@ -21,7 +21,9 @@ const select = (item: string) => {
 		{
 			list.map((item) => (
 				<li>
-					<a href={`/docs?index=${link(item)}#${title}`}>{`${select(item)}${item}`}</a>
+					<a
+						href={`/docs?index=${link(item)}#${title}`}
+					>{`${select(item)}${item}`}</a>
 				</li>
 			))
 		}

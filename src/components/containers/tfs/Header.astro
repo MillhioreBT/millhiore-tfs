@@ -14,12 +14,23 @@ const session = Astro.locals.session
 	</label>
 	<nav>
 		<SearchAI />
-		<Action as="a" href="/" role="button" aria-label="Button to go to the Home page">Home</Action>
-		<Action as="a" href="/scripts" role="button" aria-label="Button to go to the Scripts page"
-			>Scripts</Action
+		<Action
+			as="a"
+			href="/"
+			role="button"
+			aria-label="Button to go to the Home page">Home</Action
 		>
-		<Action as="a" href="/docs" role="button" aria-label="Button to go to the Docs page"
-			>Docs</Action
+		<Action
+			as="a"
+			href="/scripts"
+			role="button"
+			aria-label="Button to go to the Scripts page">Scripts</Action
+		>
+		<Action
+			as="a"
+			href="/docs"
+			role="button"
+			aria-label="Button to go to the Docs page">Docs</Action
 		>
 		<Action
 			as="a"
@@ -159,7 +170,8 @@ const session = Astro.locals.session
 	document.addEventListener("astro:page-load", async () => {
 		const $main = document.querySelector("main") as HTMLElement
 		if ($main) {
-			const [$footer]: NodeListOf<HTMLElement> = document.querySelectorAll("footer")
+			const [$footer]: NodeListOf<HTMLElement> =
+				document.querySelectorAll("footer")
 			const $menu = document.getElementById("Menu") as HTMLInputElement
 			const $root = document.documentElement
 			window.addEventListener("resize", () => {

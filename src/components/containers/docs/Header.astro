@@ -5,7 +5,9 @@ import MenuSVG from "@@/icons/Menu.astro"
 ---
 
 <header>
-	<h1><a href="/"><span>Millhiore</span></a><a href="/docs"><span>Docs</span></a></h1>
+	<h1>
+		<a href="/"><span>Millhiore</span></a><a href="/docs"><span>Docs</span></a>
+	</h1>
 	<Action as="input" id="Menu-Docs" type="checkbox" />
 	<label for="Menu-Docs">
 		<MenuSVG />
@@ -152,8 +154,12 @@ import MenuSVG from "@@/icons/Menu.astro"
 	document.addEventListener("astro:page-load", () => {
 		const $main = document.querySelector("main") as HTMLElement
 		const $menu = document.getElementById("Menu-Docs") as HTMLInputElement
-		const $docsContainer = document.getElementById("Docs-Container") as HTMLElement
-		const $docsHeaderNav = document.getElementById("Docs-Header-Nav") as HTMLElement
+		const $docsContainer = document.getElementById(
+			"Docs-Container"
+		) as HTMLElement
+		const $docsHeaderNav = document.getElementById(
+			"Docs-Header-Nav"
+		) as HTMLElement
 		const $docsNav = document.getElementById("Docs-Nav") as HTMLElement
 		const $root = document.documentElement
 		window.addEventListener("resize", () => {
