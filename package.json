@@ -19,7 +19,7 @@
     "@fontsource/share-tech-mono": "^5.0.12",
     "@libsql/client": "0.15.9",
     "ai": "4.3.16",
-    "astro": "^4.13.0",
+    "astro": "^4.16.18",
     "bcrypt": "6.0.0",
     "drizzle-orm": "0.44.2",
     "jsonwebtoken": "^9.0.2",
